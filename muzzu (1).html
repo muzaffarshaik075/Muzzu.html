@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Valentine Special</title>
+
+<style>
+body {
+  background: #ffe6eb;
+  font-family: Arial;
+  text-align: center;
+  margin-top: 60px;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  width: 360px;
+  padding: 20px;
+  margin: auto;
+  border-radius: 15px;
+  box-shadow: 0 0 15px pink;
+  position: relative;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+#yes {
+  background: #ff4d88;
+  color: white;
+  position: relative;
+  z-index: 2;
+}
+
+#no {
+  background: #999;
+  color: white;
+  position: absolute;
+  z-index: 1;
+}
+
+.fullYes {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  font-size: 40px !important;
+  z-index: 9999 !important;
+}
+
+.confetti {
+  position: fixed;
+  top: 0;
+  font-size: 18px;
+  animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10px); }
+  100% { transform: translateY(100vh); }
+}
+
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  animation: fly 4s linear forwards;
+}
+
+@keyframes fly {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Will you be my Valentine? 💖</h1>
+
+  <button id="yes" onclick="love()">Yes</button>
+  <button id="no" onclick="noClicked()">No</button>
+
+  <p id="msg"></p>
+</div>
+
+<script>
+let tries = 0;
+
+const excuses = [
+"Think again 🥺",
+"Are you sure? 😭",
+"My heart is breaking 💔",
+"Don't be so cruel 😢",
+"System says choose YES 😤",
+"NO button is crying now 😭",
+"Please have mercy 🥹",
+"I will tell your mom 😠",
+"Last warning 😤",
+"NO is in depression 😭",
+"Stop touching NO 😩",
+"Fingers slipping to YES 🤭"
+];
+
+function noClicked() {
+  tries++;
+
+  var btn = document.getElementById("no");
+  btn.style.left = Math.random()*250 + "px";
+  btn.style.top = Math.random()*250 + "px";
+
+  var yes = document.getElementById("yes");
+
+  // Grow yes
+  let size = 16 + tries * 9;
+  yes.style.fontSize = size + "px";
+  yes.style.padding = (10 + tries*3) + "px";
+
+  document.getElementById("msg").innerHTML =
+    excuses[tries % excuses.length];
+
+  // Take over screen
+  if (tries >= 8) {
+    yes.classList.add("fullYes");
+  }
+
+  // AUTO YES AFTER 13
+  if (tries >= 13) {
+    document.getElementById("msg").innerHTML =
+      "System forced YES 💘";
+    love();
+  }
+}
+
+function love() {
+  document.getElementById("msg").innerHTML =
+  "Finally! Destiny Accepted 💖🥰";
+
+  for (let i = 0; i < 120; i++) {
+    createHeart();
+    createConfetti();
+  }
+}
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+
+  heart.style.left = Math.random()*100 + "vw";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 4000);
+}
+
+function createConfetti() {
+  const c = document.createElement("div");
+  c.className = "confetti";
+
+  const items = ["🎉","✨","💖","🌸","🥰"];
+  c.innerHTML = items[Math.floor(Math.random()*items.length)];
+
+  c.style.left = Math.random()*100 + "vw";
+  document.body.appendChild(c);
+
+  setTimeout(() => c.remove(), 3000);
+}
+</script>
+
+</body>
+</html>
